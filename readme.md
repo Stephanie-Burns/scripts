@@ -1,5 +1,8 @@
-# Make Project
-The purpose of this script is to create a generic directory structure for python projects.
+# Scripts
+[makeproject.py](#make-project)
+
+## Make Project
+Create a generic directory structure for python projects.
 
 Relevant file: makeproject.py
 
