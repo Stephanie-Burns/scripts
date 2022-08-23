@@ -9,10 +9,11 @@ Directory Structure
 .
 └── project_name/
     ├── deprecated/
+    │   └── test.py
     ├── docs/
     │   └── dev_log.md
     ├── src/
-    │   └── test.py
+    │   └── main.py
     ├── .gitignore
     └── readme.md
 """
@@ -84,8 +85,9 @@ def main():
     make_dirs(project_path, directories)
     make_file(project_path, "readme.md")
     make_file(project_path, ".gitignore")
+    make_file(f"{project_path}\\deprecated", "test.py")
     make_file(f"{project_path}\\docs", "dev_log.md")
-    make_file(f"{project_path}\\src", "test.py")
+    make_file(f"{project_path}\\src", "main.py")
 
 
 if __name__ == '__main__':

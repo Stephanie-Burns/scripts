@@ -12,10 +12,11 @@ Directory Structure
 .
 └── project_name/
     ├── deprecated/
+    │   └── test.py
     ├── docs/
     │   └── dev_log.md
     ├── src/
-    │   └── test.py
+    │   └── main.py
     ├── .gitignore
     └── readme.md
 
