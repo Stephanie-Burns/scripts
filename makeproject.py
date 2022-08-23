@@ -8,11 +8,13 @@ from pathlib import Path
 Directory Structure
 .
 └── project_name/
-    ├── deprecated/
     ├── docs/
     │   └── dev_log.md
     ├── src/
     │   └── test.py
+    |   └── tcp.py
+    ├── util/
+    |   └── script.ps1
     ├── .gitignore
     └── readme.md
 """
@@ -79,13 +81,17 @@ def main():
     cwd = args.dir
 
     project_path = f"{cwd}\\{project_name}"
-    directories = ["deprecated", "docs", "src"]
+    directories = ["docs", "src", "util"]
 
     make_dirs(project_path, directories)
     make_file(project_path, "readme.md")
     make_file(project_path, ".gitignore")
     make_file(f"{project_path}\\docs", "dev_log.md")
     make_file(f"{project_path}\\src", "test.py")
+    make_file(f"{project_path}\\src", "tcp.py")
+    make_file(f"{project_path}\\util", "script.ps1")
+
+
 
 
 if __name__ == '__main__':
