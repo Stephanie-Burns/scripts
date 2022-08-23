@@ -11,11 +11,13 @@ Relevant file: makeproject.py
 Directory Structure
 .
 └── project_name/
-    ├── deprecated/
     ├── docs/
     │   └── dev_log.md
     ├── src/
     │   └── test.py
+    │   └── tcp.py
+    ├── util/
+    │   └── script.ps1
     ├── .gitignore
     └── readme.md
 ```
