@@ -1,6 +1,7 @@
 # Scripts
 - [makeproject.py](#make-project)
 - [OpenGitBash.reg](#open-git-bash)
+- [mdtoc.py](#markdown-table-of-contents-generator)
 
 ## Make Project
 Create a generic directory structure for python projects.
@@ -50,3 +51,25 @@ Adds an option to the Windows File Explorer context menu which opens git bash in
 
 To execute: double click OpenGitBash.reg and the script will write the necessary registry keys.
 
+## Markdown Table of Contents Generator
+Iterates over the ##### Headers of a markdown file and returns a formatted
+table of contents. By default the output is also appended to the system
+clipboard.
+
+<pre>
+positional arguments:
+  path             Provide the file path to a markdown file. Paths may be
+                   relative or absolute.
+
+options:
+  -h, --help       show this help message and exit
+  -c, --clipboard  Disable appending results to the system clipboard.
+  -o, --output     Disable printing results to the console.
+</pre>
+
+
+For best results assign calling the script to an alias.
+
+```Bash
+alias mkpro='python mdtoc.py'
+```
