@@ -71,5 +71,5 @@ options:
 For best results assign calling the script to an alias.
 
 ```Bash
-alias mkpro='python mdtoc.py'
+alias mkpro='python full_path_to_mdtoc.py'
 ```
