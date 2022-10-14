@@ -64,7 +64,7 @@ def get_args() -> list[str, bool, bool]:
 def parse_file(file_handle: TextIO) -> list[str, ...]:
     """
     Sample in from file:  "# My project name"
-    Sample out:  [My project name](my-project-name)
+    Sample out:  [My project name](#my-project-name)
     """
     table_of_contents = []
 
@@ -76,7 +76,7 @@ def parse_file(file_handle: TextIO) -> list[str, ...]:
             title   = ' '.join(tokens)
             link    = '-'.join(tokens).lower()
 
-            table_of_contents.append(f"[{title}]({link})")
+            table_of_contents.append(f"[{title}](#{link})")
 
     return table_of_contents
 
