@@ -132,67 +132,7 @@ def main(args: Any) -> int:
 
 
 if __name__ == "__main__":
-    ...
+
     args = get_args()
     main(args)
 
-
-# from dataclasses import dataclass, astuple, fields
-
-
-# @dataclass
-# class Headings:
-#     H1: str = '#'
-#     H2: str = "##"
-#     H3: str = "###"
-#     H4: str = "####"
-#     H5: str = "#####"
-#     H6: str = "######"
-
-#     def __iter__(self):
-#         return astuple(self)
-
-#     def __contains__(self, other):
-#         return True if other in astuple(self) else False
-
-
-# lines = ["# Hey", "### More here", "just junk"]
-# allowed = ["###", "##"]
-
-# for line in lines:
-
-#     if line.startswith('#'):
-
-#         line = line.split()
-
-#         if line[0] in Headings():
-#             print(line[1])
-
-
-# def parse_file(file_handle: TextIO, headings: set) -> list[str, ...]:
-#     """
-#     Sample in from file:  "# My project name"
-#     Sample out:  [My project name](my-project-name)
-#     """
-#     table_of_contents = []
-
-#     for line in file_handle:
-
-#         if line.startswith('#'):
-
-#             tokens = line.rstrip().split()
-
-#             if tokens[0] in headings:
-
-#                 title = ' '.join(tokens[1:])
-#                 link  = '-'.join(tokens[1:]).lower()
-
-#             table_of_contents.append(f"[{title}]({link})")
-
-#     return table_of_contents
-
-
-# HEADINGS = {'#', "##", "###", "####", "#####", "######"}
-
-# if "##" in HEADINGS:
-#     print(True)
