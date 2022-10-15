@@ -5,6 +5,23 @@ from pathlib import Path
 from typing import Any, TextIO
 
 
+def _get_heading_whitelist(args: list) -> list[str]:
+
+    WHITELIST = ["#", "##", "###", "####", "#####", "######"]
+    user_whitelist = []
+
+    if args:
+
+        try:
+            for i in args:
+                user_whitelist.append(WHITELIST[i - 1])
+
+        except IndexError:
+            print(f"[-H] Invalid argument: {i}")
+
+    return user_whitelist or WHITELIST
+
+
 def _valid_path(path: Path) -> bool:
     """
     Error checking for path object, expected:  the file exists
@@ -45,6 +62,13 @@ def get_args() -> list[str, bool, bool]:
     )
 
     parser.add_argument(
+        "-a",
+        "--alphabetical",
+        help="Results are returned alphabetically.",
+        action="store_true"
+    )
+
+    parser.add_argument(
         "-c",
         "--clipboard",
         help="Disable saving results to the system clipboard.",
@@ -58,10 +82,24 @@ def get_args() -> list[str, bool, bool]:
         action="store_false"
     )
 
+    parser.add_argument(
+        "-w",
+        "--whitelist",
+        nargs="*",
+        type=int,
+        help=(
+            'Whiteist for heading tags. '
+            'H1 - H6 tags are supported by default. '
+            'EXAMPLES: '
+            'To capture only H1 or "#" tags, you would pass ... -w 1 '
+            'To capture "##" and "####", pass ... -w 2 4'
+        )
+    )
+
     return parser.parse_args()
 
 
-def parse_file(file_handle: TextIO) -> list[str, ...]:
+def parse_file(file_handle: TextIO, headings: list[str, ...]) -> list[str, ...]:
     """
     Sample in from file:  "# My project name"
     Sample out:  [My project name](#my-project-name)
@@ -72,9 +110,12 @@ def parse_file(file_handle: TextIO) -> list[str, ...]:
 
         if line.startswith('#'):
 
-            tokens  = line.rstrip().split()[1:]
-            title   = ' '.join(tokens)
-            link    = '-'.join(tokens).lower()
+            tokens = line.rstrip().split()
+
+            if tokens[0] in headings:
+
+                title = ' '.join(tokens[1:])
+                link  = '-'.join(tokens[1:]).lower()
 
             table_of_contents.append(f"[{title}](#{link})")
 
@@ -97,6 +138,7 @@ def set_win_clipboard(output: str) -> None:
 def main(args: Any) -> int:
 
     path = Path(args.path)
+    heading_whitelist = _get_heading_whitelist(args.whitelist)
 
     if not _valid_path(path):
 
@@ -106,7 +148,7 @@ def main(args: Any) -> int:
 
         with open(path, 'r') as file_handle:
 
-            results = parse_file(file_handle)
+            results = parse_file(file_handle, heading_whitelist)
 
     except OSError as e:
 
@@ -117,6 +159,10 @@ def main(args: Any) -> int:
 
         print("No Headers found.")
         return 1
+
+    if args.alphabetical:
+
+        results = sorted(results)
 
     if args.output:
 
@@ -135,4 +181,3 @@ if __name__ == "__main__":
 
     args = get_args()
     main(args)
-
