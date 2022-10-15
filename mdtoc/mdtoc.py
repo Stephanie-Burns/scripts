@@ -13,11 +13,14 @@ def _get_heading_whitelist(args: list) -> list[str]:
     if args:
 
         try:
+
             for i in args:
+
                 user_whitelist.append(WHITELIST[i - 1])
 
         except IndexError:
-            print(f"[-H] Invalid argument: {i}")
+
+            print(f"[-w] Invalid argument: {i}")
 
     return user_whitelist or WHITELIST
 
@@ -90,7 +93,7 @@ def get_args() -> list[str, bool, bool]:
         help=(
             'Whiteist for heading tags. '
             'H1 - H6 tags are supported by default. '
-            'EXAMPLES: '
+            'EXAMPLES:  '
             'To capture only H1 or "#" tags, you would pass ... -w 1 '
             'To capture "##" and "####", pass ... -w 2 4'
         )
@@ -105,10 +108,15 @@ def parse_file(file_handle: TextIO, headings: list[str, ...]) -> list[str, ...]:
     Sample out:  [My project name](#my-project-name)
     """
     table_of_contents = []
+    fenced_code = False
 
     for line in file_handle:
 
-        if line.startswith('#'):
+        if line.startswith("```"):
+
+            fenced_code = not fenced_code
+
+        if not fenced_code and line.startswith('#'):
 
             tokens = line.rstrip().split()
 
@@ -117,7 +125,7 @@ def parse_file(file_handle: TextIO, headings: list[str, ...]) -> list[str, ...]:
                 title = ' '.join(tokens[1:])
                 link  = '-'.join(tokens[1:]).lower()
 
-            table_of_contents.append(f"[{title}](#{link})")
+                table_of_contents.append(f"[{title}](#{link})")
 
     return table_of_contents
 

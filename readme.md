@@ -56,16 +56,13 @@ Iterates over the ##### Headers of a markdown file and returns a formatted
 table of contents. By default the output is also appended to the system
 clipboard.
 
-<pre>
-positional arguments:
-  path             Provide the file path to a markdown file. Paths may be
-                   relative or absolute.
-
-options:
-  -h, --help       show this help message and exit
-  -c, --clipboard  Disable appending results to the system clipboard.
-  -o, --output     Disable printing results to the console.
-</pre>
+| Argument | Argument Short | Required? | Description |
+|---|---|---|---|
+| path |  | Yes | The relative or absolute path to your markdown file. |
+| --alphabetical | -a | No | Output will be alphabetized. |
+| --clipboard | -c | No | Output will **NOT** be saved to the clipboard. |
+| --output | -o | No | Output will **NOT** be printed to the console. |
+| --whitelist | -w | No | Only passed headers will be reported.<br><br>H1 - H6 tags are returned by default.<br><br>Arguments should be passed as integers only. <br><br>For example, to return only H1 and H2  <br>tags you would pass ... -w 1 2 to the script. |ntegers only. <br><br>For example, to return only H1 and H2  <br>tags you would pass ... -w 1 2 to the script. |
 
 
 For best results assign calling the script to an alias.
