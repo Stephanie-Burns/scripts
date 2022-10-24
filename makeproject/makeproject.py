@@ -14,7 +14,6 @@ Directory Structure
     └── readme.md
 """
 
-# from os import getcwd, mkdir
 from argparse import ArgumentParser
 from pathlib import Path
 from typing import Any
@@ -49,18 +48,6 @@ def get_args():
     return parser.parse_args()
 
 
-def make_dirs(directories: dict[str, Path]) -> None:
-
-    for directory in directories.values():
-
-        try:
-            directory.mkdir(parents=True, exist_ok=True)
-
-        except OSError as e:
-            print(f"[ERROR] Failed to write: {directory}")
-            print(e)
-
-
 def make_files(files: dict[str, Path]) -> None:
 
     for file in files.values():
@@ -70,6 +57,18 @@ def make_files(files: dict[str, Path]) -> None:
 
         except OSError as e:
             print(f"[ERROR] Failed to write: {file}")
+            print(e)
+
+
+def make_dirs(directories: dict[str, Path]) -> None:
+
+    for directory in directories.values():
+
+        try:
+            directory.mkdir(parents=True, exist_ok=True)
+
+        except OSError as e:
+            print(f"[ERROR] Failed to write: {directory}")
             print(e)
 
 
@@ -97,17 +96,16 @@ def main(args: Any):
     }
 
     files = {
-        "readme"        : project_path.joinpath("readme.md"),
         "gitignore"     : project_path.joinpath(".gitignore"),
-        "test"          : directories["deprecated"].joinpath("test.py"),
-        "main"          : directories["src"].joinpath("main.py"),
+        "readme"        : project_path.joinpath("readme.md"),
         "dev_log"       : directories["docs"].joinpath("dev_log.md"),
-
+        "main"          : directories["src"].joinpath("main.py"),
+        "test"          : directories["deprecated"].joinpath("test.py"),
     }
 
     templates = {
-        "gitignore"     : (files["gitignore"], filetemplate.GITIGNORE),
         "dev_log"       : (files["dev_log"], filetemplate.DEV_LOG),
+        "gitignore"     : (files["gitignore"], filetemplate.GITIGNORE),
     }
 
     make_dirs(directories)
