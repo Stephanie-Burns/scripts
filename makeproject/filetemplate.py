@@ -1,8 +1,5 @@
 
-import inspect
-
-
-_GITIGNORE = """
+GITIGNORE = """
 # Personal
 /deprecated
 
@@ -147,7 +144,7 @@ dmypy.json
 cython_debug/
 """
 
-_DEV_LOG = """
+DEV_LOG = """
 # Developer Log
 describe intent
 
@@ -158,6 +155,3 @@ describe intent
 
 ## Dependencies
 """
-
-GITIGNORE = inspect.cleandoc(_GITIGNORE)
-DEV_LOG = inspect.cleandoc(_DEV_LOG)

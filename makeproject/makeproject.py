@@ -17,6 +17,7 @@ Directory Structure
 from argparse import ArgumentParser
 from pathlib import Path
 from typing import Any
+import inspect
 
 import filetemplate
 
@@ -78,7 +79,7 @@ def make_templates(templates) -> None:
 
         try:
             with open(path, "w") as file_handle:
-                file_handle.write(template)
+                file_handle.write(inspect.cleandoc(template))
 
         except OSError as e:
             print(f"[ERROR] Failed to write: {path}")
@@ -87,7 +88,7 @@ def make_templates(templates) -> None:
 
 def main(args: Any):
 
-    project_path = args.dir.joinpath(args.name,)
+    project_path = args.dir.joinpath(args.name)
 
     directories = {
         "deprecated"    : project_path.joinpath("deprecated"),
