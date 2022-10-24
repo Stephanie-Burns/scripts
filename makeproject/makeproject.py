@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 """
 Directory Structure
@@ -14,17 +14,16 @@ Directory Structure
     └── readme.md
 """
 
-from argparse import ArgumentParser
 from pathlib import Path
-from typing import Any
+import argparse
 import inspect
 
 import filetemplate
 
 
-def get_args():
+def get_args() -> argparse.Namespace:
 
-    parser = ArgumentParser(
+    parser = argparse.ArgumentParser(
         description=f"Create a boilerplate directory for a python project.\n\n"
     )
 
@@ -42,23 +41,11 @@ def get_args():
         help=(
             "Optional: The directory in which to place the project. "
             "If no directory is given, the current directory will "
-            "be used instead."
+            "be selected."
         )
     )
 
     return parser.parse_args()
-
-
-def make_files(files: dict[str, Path]) -> None:
-
-    for file in files.values():
-
-        try:
-            file.touch()
-
-        except OSError as e:
-            print(f"[ERROR] Failed to write: {file}")
-            print(e)
 
 
 def make_dirs(directories: dict[str, Path]) -> None:
@@ -73,12 +60,24 @@ def make_dirs(directories: dict[str, Path]) -> None:
             print(e)
 
 
+def make_files(files: dict[str, Path]) -> None:
+
+    for file in files.values():
+
+        try:
+            file.touch()
+
+        except OSError as e:
+            print(f"[ERROR] Failed to write: {file}")
+            print(e)
+
+
 def make_templates(templates: dict[str, tuple[Path, str]]) -> None:
 
     for path, template in templates.values():
 
         try:
-            with open(path, "w") as file_handle:
+            with open(path, 'w') as file_handle:
                 file_handle.write(inspect.cleandoc(template))
 
         except OSError as e:
@@ -86,7 +85,7 @@ def make_templates(templates: dict[str, tuple[Path, str]]) -> None:
             print(e)
 
 
-def main(args: Any):
+def main(args: argparse.Namespace) -> None:
 
     project_path = args.dir.joinpath(args.name)
 
