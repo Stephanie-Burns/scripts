@@ -1,10 +1,4 @@
-
-from os import getcwd, mkdir
-from argparse import ArgumentParser
-from pathlib import Path
-
-import filetemplate
-
+#!/usr/bin/python3
 
 """
 Directory Structure
@@ -20,6 +14,13 @@ Directory Structure
     └── readme.md
 """
 
+# from os import getcwd, mkdir
+from argparse import ArgumentParser
+from pathlib import Path
+from typing import Any
+
+import filetemplate
+
 
 def get_args():
 
@@ -34,83 +35,86 @@ def get_args():
     )
 
     parser.add_argument(
-        'dir',
+        "dir",
         nargs='?',
-        default=getcwd(),
-        help=("Optional: The directory in which to place the project. "
-              "If no directory is given, the current directory will "
-              "be used instead.")
+        type=Path,
+        default=Path.cwd(),
+        help=(
+            "Optional: The directory in which to place the project. "
+            "If no directory is given, the current directory will "
+            "be used instead."
+        )
     )
 
     return parser.parse_args()
 
 
-def make_dirs(
-    project_path: str,
-    directories: list[str, ...],
-    create_parent=True
-) -> None:
+def make_dirs(directories: dict[str, Path]) -> None:
 
-    try:
-        if create_parent:
-            mkdir(project_path)
+    for directory in directories.values():
 
-        for directory in directories:
-            mkdir(f"{project_path}\\{directory}")
+        try:
+            directory.mkdir(parents=True, exist_ok=True)
 
-    # TODO Replace base with something useful
-    except BaseException as e:
-        print(f"[ERROR] Failed to write:  {directory}")
-        print(e)
+        except OSError as e:
+            print(f"[ERROR] Failed to write: {directory}")
+            print(e)
 
 
-def make_file(path: str, file_name: str) -> None:
+def make_files(files: dict[str, Path]) -> None:
 
-    try:
-        Path(f"{path}\\{file_name}").touch()
+    for file in files.values():
 
-    # TODO Replace base with something useful
-    except BaseException as e:
-        print(f"[ERROR] Failed to write:  {file_name} to {path}")
-        print(e)
+        try:
+            file.touch()
 
-
-def write_file(path: str, text_body: str) -> None:
-
-    try:
-        with open(path, "w") as file_handle:
-            file_handle.write(text_body)
-
-    # TODO Replace base with something useful
-    except BaseException as e:
-        print(f"[ERROR] Failed to write: {path}")
-        print(e)
+        except OSError as e:
+            print(f"[ERROR] Failed to write: {file}")
+            print(e)
 
 
-def main():
+def make_templates(templates) -> None:
 
-    args = get_args()
-    project_name = args.name
-    cwd = args.dir
+    for path, template in templates.values():
 
-    project_path = f"{cwd}\\{project_name}"
-    directories = ["deprecated", "docs", "src"]
+        try:
+            with open(path, "w") as file_handle:
+                file_handle.write(template)
 
-    make_dirs(project_path, directories)
+        except OSError as e:
+            print(f"[ERROR] Failed to write: {path}")
+            print(e)
 
-    make_file(project_path, "readme.md")
-    make_file(f"{project_path}\\deprecated", "test.py")
-    make_file(f"{project_path}\\src", "main.py")
 
-    write_file(
-        f"{project_path}\\docs\\dev_log.md",
-        filetemplate.dev_log_body(project_name)
-    )
-    write_file(
-        f"{project_path}\\.gitignore",
-        filetemplate.git_ignore_body()
-    )
+def main(args: Any):
+
+    project_path = args.dir.joinpath(args.name,)
+
+    directories = {
+        "deprecated"    : project_path.joinpath("deprecated"),
+        "docs"          : project_path.joinpath("docs"),
+        "src"           : project_path.joinpath("src"),
+    }
+
+    files = {
+        "readme"        : project_path.joinpath("readme.md"),
+        "gitignore"     : project_path.joinpath(".gitignore"),
+        "test"          : directories["deprecated"].joinpath("test.py"),
+        "main"          : directories["src"].joinpath("main.py"),
+        "dev_log"       : directories["docs"].joinpath("dev_log.md"),
+
+    }
+
+    templates = {
+        "gitignore"     : (files["gitignore"], filetemplate.GITIGNORE),
+        "dev_log"       : (files["dev_log"], filetemplate.DEV_LOG),
+    }
+
+    make_dirs(directories)
+    make_files(files)
+    make_templates(templates)
 
 
 if __name__ == '__main__':
-    main()
+    args = get_args()
+    main(args)
