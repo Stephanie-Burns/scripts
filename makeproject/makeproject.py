@@ -73,7 +73,7 @@ def make_dirs(directories: dict[str, Path]) -> None:
             print(e)
 
 
-def make_templates(templates) -> None:
+def make_templates(templates: dict[str, tuple[Path, str]]) -> None:
 
     for path, template in templates.values():
 
