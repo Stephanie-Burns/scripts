@@ -129,9 +129,9 @@ class Budget:
 
 if __name__ == '__main__':
 
-    from bills import BILLS
+    from bills import BILLS  # BILLS = list[Bill]
 
-    t: list[Bill] = Budget(BILLS)
+    t = Budget(BILLS)
 
     t.payments_all("DUE_DAY")
     t.payments_due(threshold=15, sort_order="DUE_DAY")
