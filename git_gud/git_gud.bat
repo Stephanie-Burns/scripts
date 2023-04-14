@@ -11,15 +11,8 @@ cd /d "%directory%"
 
 rem perform the git push operation
 @echo on
-
-git add .
-if %errorlevel% neq 0 exit /b %errorlevel%
-git commit -m "update"
-if %errorlevel% neq 0 exit /b %errorlevel%
-git push
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-@echo off
+git add . & git commit -m "update" & git push
 
 rem return to starting directory
+@echo off
 popd
