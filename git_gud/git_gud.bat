@@ -13,6 +13,5 @@ rem perform the git push operation
 @echo on
 git add . & git commit -m "update" & git push
 
-rem return to starting directory
 @echo off
 popd
