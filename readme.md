@@ -75,4 +75,4 @@ alias mkpro='python full_path_to_mdtoc.py'
 ## Git Gud
 Simple bat file to run the git commit logic on Windows. Intended for use by python scripts to keep execution isolated. Not as good as the API, but good enough for most stuff. 
 
-Make sure git is visible to your path.
+Make sure git is visible to your path and you have SSH access to GitHub.
