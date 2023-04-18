@@ -2,6 +2,7 @@
 - [makeproject.py](#make-project)
 - [OpenGitBash.reg](#open-git-bash)
 - [mdtoc.py](#markdown-table-of-contents-generator)
+- [git_gud.bat](#git-gud)
 
 ## Make Project
 Create a generic directory structure for python projects.
@@ -72,4 +73,6 @@ alias mkpro='python full_path_to_mdtoc.py'
 ```
 
 ## Git Gud
-Simple bat file to run the git commit logic. Intended for use by python scripts to keep execution isolated.
+Simple bat file to run the git commit logic on Windows. Intended for use by python scripts to keep execution isolated. Not as good as the API, but good enough for most stuff. 
+
+Make sure git is visible to your path and you have SSH access to GitHub.
